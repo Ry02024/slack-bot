@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      SLACK_TEST_CHANNELS: ${{ secrets.SLACK_TEST_CHANNELS }}
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -25,15 +25,15 @@ jobs:
 
       - name: Start Flask app in background
         run: |
-          nohup python app/main.py > app.log 2>&1 &
+          nohup python -m app.main > app.log 2>&1 &
           echo "Waiting for server to start..."
-          timeout=60  # 待機時間を60秒に延長
+          timeout=60
           until curl -s http://localhost:8080/ > /dev/null; do
             sleep 1
             timeout=$((timeout-1))
             if [ $timeout -le 0 ]; then
               echo "Server did not start in time"
-              cat app.log   # ログの内容を出力してデバッグ
+              cat app.log
               exit 1
             fi
           done
