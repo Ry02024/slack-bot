@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      
+      SLACK_TEST_CHANNELS: ${{ secrets.SLACK_TEST_CHANNELS }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
