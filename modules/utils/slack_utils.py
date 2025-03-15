@@ -2,7 +2,7 @@ import os
 import requests
 
 def post_to_slack(message, channel):
-    SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
+    SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN", "").strip()
     if not SLACK_BOT_TOKEN:
         print("Error: SLACK_BOT_TOKEN is not set")
         return
