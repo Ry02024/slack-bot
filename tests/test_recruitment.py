@@ -1,5 +1,5 @@
 import unittest
-from modules/recruitment/job_fetcher import test_module
+from modules.recruitment.job_fetcher import test_module
 
 class TestRecruitment(unittest.TestCase):
     def test_jobs(self):
