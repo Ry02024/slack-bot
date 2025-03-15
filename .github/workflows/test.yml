@@ -5,10 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # 手動実行用トリガーを追加
+  workflow_dispatch:
 
 jobs:
-  test:
+  unit_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,21 +25,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run unit tests
-        run: |
-          python -m unittest discover -s tests
+        run: python -m unittest discover -s tests
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      - name: Run Slack Integration Test (Separated Endpoints)
-
-        on:
-          workflow_dispatch:   # 手動実行用
-
-        jobs:
-          integration_test:
-            runs-on: ubuntu-latest
-            env:
-              SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  integration_tests:
+    runs-on: ubuntu-latest
+    env:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       
     steps:
       - name: Checkout repository
@@ -58,7 +51,7 @@ jobs:
       - name: Start Flask app in background
         run: |
           nohup python app/main.py > app.log 2>&1 &
-          sleep 5  # 待機してサーバーの起動を確認
+          sleep 5  # サーバーの起動を待機
 
       - name: Test Morning Post
         run: |
