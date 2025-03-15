@@ -30,8 +30,47 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      - name: Run integration test
+      - name: Run Slack Integration Test (Separated Endpoints)
+
+        on:
+          workflow_dispatch:   # 手動実行用
+
+        jobs:
+          integration_test:
+            runs-on: ubuntu-latest
+            env:
+              SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
         run: |
-          python app.py
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start Flask app in background
+        run: |
+          nohup python app/main.py > app.log 2>&1 &
+          sleep 5  # 待機してサーバーの起動を確認
+
+      - name: Test Morning Post
+        run: |
+          echo "Triggering /post_morning..."
+          curl -X POST http://localhost:8080/post_morning
+
+      - name: Test Hourly Post
+        run: |
+          echo "Triggering /post_hourly..."
+          curl -X POST http://localhost:8080/post_hourly
+
+      - name: Test Evening Post
+        run: |
+          echo "Triggering /post_evening..."
+          curl -X POST http://localhost:8080/post_evening
