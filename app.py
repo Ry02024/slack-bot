@@ -15,7 +15,7 @@ from modules.status.metalife_status import test_module as test_metalife_status
 from modules.utils.slack_utils import post_to_slack
 
 # Slack テストチャンネルID（環境変数から取得）
-SLACK_TEST_CHANNEL = os.getenv("SLACK_TEST_CHANNEL", "YOUR_TEST_CHANNEL_ID")
+SLACK_TEST_CHANNEL =["C08BRQGQ2VB"]
 
 def main():
     logging.basicConfig(level=logging.INFO)
