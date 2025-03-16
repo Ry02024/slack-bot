@@ -15,6 +15,16 @@ from modules.utils.slack_utils import post_to_slack
 
 SLACK_TEST_CHANNEL = ["C08BRQGQ2VB"]
 
+def safe_get(label, content):
+    """
+    指定したモジュールの出力が空の場合は「情報なし」と返す。
+    ラベルとともに出力する。
+    """
+    content = content.strip()
+    if not content:
+        return f"{label}: 情報なし"
+    return f"{label}: {content}"
+    
 def post_morning():
     messages = []
     messages.append("【朝の投稿】")
@@ -43,8 +53,8 @@ def main():
     now = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     logging.info("Current Japan time: %s", now.strftime("%Y-%m-%d %H:%M:%S"))
     
-    # 平日のみ投稿する例（休日は別処理や投稿しない）
-    if now.weekday() < 5:  # 月～金
+    # 平日（月～金）の場合の処理
+    if now.weekday() < 5:
         if now.hour == 9:
             full_message = post_morning()
         elif now.hour == 17:
@@ -53,7 +63,12 @@ def main():
             full_message = post_hourly()
     else:
         full_message = "休日のため投稿は行いません。"
-    
+
+    # 万が一、全体が空の場合はフォールバックメッセージを設定
+    if not full_message.strip():
+        full_message = "投稿情報がありません。"
+
+    # ログに出力して、どの情報が投稿されるか確認できるようにする
     logging.info("Slackに投稿するメッセージ:\n%s", full_message)
     post_to_slack(full_message, SLACK_TEST_CHANNEL)
     logging.info("投稿がSlackテストチャンネルに送信されました。")
