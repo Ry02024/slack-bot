@@ -13,7 +13,7 @@ from modules.status.slack_status import test_module as test_slack_status
 from modules.status.metalife_status import test_module as test_metalife_status
 from modules.utils.slack_utils import post_to_slack
 
-SLACK_TEST_CHANNEL = os.getenv("SLACK_TEST_CHANNEL", "YOUR_TEST_CHANNEL_ID")
+SLACK_TEST_CHANNEL = ["C08BRQGQ2VB"]
 
 def post_morning():
     messages = []
