@@ -12,6 +12,8 @@ from modules.auto_reply.reply_handler import test_module as test_auto_reply
 from modules.status.slack_status import test_module as test_slack_status
 from modules.status.metalife_status import test_module as test_metalife_status
 from modules.utils.slack_utils import post_to_slack
+from modules.weather_events.weather_fetcher import get_local_events
+from modules.weather_events.weather_fetcher import get_weather_events
 
 # Config から環境変数を取得
 from app.config import Config
@@ -30,8 +32,8 @@ def safe_get(label, content):
 def post_morning():
     messages = []
     messages.append("【朝の投稿】")
-    messages.append("天気情報: " + test_weather())
-    messages.append("地元イベント: " + test_events())
+    messages.append("天気情報: " + get_weather_events())
+    messages.append("地元イベント: " + get_local_events())
     messages.append("データサイエンス求人情報: " + test_jobs())
     return "\n".join(messages)
 
