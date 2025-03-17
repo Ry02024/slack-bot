@@ -1,17 +1,20 @@
 import os
 from google import genai
+from app.config import Config  # Configから取得
+
+# Gemini API キーを設定
+GEMINI_API_KEY = Config.GEMINI_API
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API key が設定されていません。")
+
+# Gemini クライアントの初期化
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def generate_text(context):
     """
     Gemini API を利用して、指定されたコンテキストに基づく文章を生成する関数。
     GEMINI_API キーは環境変数 "GEMINI_API" から取得します。
     """
-    gemini_api_key = os.getenv("GEMINI_API")
-    if not gemini_api_key:
-        return "GEMINI_API key が設定されていません。"
-    
-    # Gemini の API キーを設定
-    client = genai.Client(api_key=gemini_api_key)
     
     # プロンプトの作成（用途に応じて調整してください）
     prompt = f"以下の内容に関する情報を元に、ユーザーに分かりやすい文章を生成してください:\n{context}"
