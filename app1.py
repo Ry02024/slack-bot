@@ -13,7 +13,9 @@ from modules.status.slack_status import test_module as test_slack_status
 from modules.status.metalife_status import test_module as test_metalife_status
 from modules.utils.slack_utils import post_to_slack
 
-SLACK_TEST_CHANNEL = ["C08BRQGQ2VB"]
+# Config から環境変数を取得
+from app.config import Config
+SLACK_TEST_CHANNEL = Config.SLACK_TEST_CHANNEL
 
 def safe_get(label, content):
     """
