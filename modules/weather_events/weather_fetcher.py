@@ -11,7 +11,7 @@ if not GEMINI_API_KEY:
 # Gemini クライアントの初期化
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-def get_weather_info(location="東京"):
+def get_weather_info(location="秋葉原"):
     """
     Gemini 2.0のGoogle検索機能を使って、指定された場所の天気情報を取得する
     
