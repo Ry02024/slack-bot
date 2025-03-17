@@ -3,7 +3,7 @@ from google import genai
 from app.config import Config  # Configから取得
 
 # Gemini API キーを設定
-GEMINI_API_KEY = Config.GEMINI_API
+GEMINI_API_KEY = Config.GEMINI_API[0]
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API key が設定されていません。")
 
