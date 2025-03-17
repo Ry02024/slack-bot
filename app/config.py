@@ -1,7 +1,13 @@
 import os
+from dotenv import load_dotenv
+
+# .env ファイルがある場合、環境変数を読み込む
+load_dotenv()
 
 class Config:
-    # Bot Token は環境変数から取得（必須）
+    # Slack 関連の設定
     SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN", "").split()
-    # チャンネルはカンマ区切りの文字列として環境変数に設定し、リストに変換する
-    SLACK_TEST_CHANNELS = ["C08BRQGQ2VB"]
+    SLACK_TEST_CHANNEL = ["C08BRQGQ2VB"]
+    
+    # Gemini API の設定
+    GEMINI_API = os.getenv("GEMINI_API", "").split()
