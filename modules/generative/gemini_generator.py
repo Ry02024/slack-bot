@@ -11,14 +11,14 @@ def generate_text(context):
         return "GEMINI_API key が設定されていません。"
     
     # Gemini の API キーを設定
-    genai.configure(api_key=gemini_api_key)
+    client = genai.Client(api_key=gemini_api_key)
     
     # プロンプトの作成（用途に応じて調整してください）
     prompt = f"以下の内容に関する情報を元に、ユーザーに分かりやすい文章を生成してください:\n{context}"
     
-    # 文章生成のリクエスト
-    response = genai.models.generate_content(
-        model="gemini-2.0-flash",  # ご利用のモデルに合わせて調整
+    # 🔹 Gemini 2.0 で応答を生成
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",  # gemini-2.0 シリーズ
         contents=prompt,
     )
     
